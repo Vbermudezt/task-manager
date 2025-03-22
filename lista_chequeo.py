@@ -19,9 +19,9 @@ def leer_data():
         return json.load(file)
 
 
-def agregar_tareas():
+def agregar_tareas(parametros):
     data = leer_data()
-    tarea = input("Ingrese la tarea a agregar: ")
+    tarea = " ".join(map(str, parametros))
     data["pendientes"].append(tarea)
     guardar_data(data)
     print(f"La tarea {tarea} ha sido agregada")
@@ -97,33 +97,31 @@ def listar_tareas():
 
 
 def main():
-    print("Bienvenido al sistema de gestión de tareas.")
-    while True:
-        print("\n--- Menú Principal ---")
-        print("1. Agregar tarea")
-        print("2. Eliminar tarea")
-        print("3. Marcar tarea como completada")
-        print("4. Listar tareas")
-        print("5. Salir")
-        try:
-            opcion = int(input("Ingrese una opción: "))
-        except ValueError:
-            print("Opción no válida. Intente de nuevo.")
-            continue
 
-        if opcion == 1:
-            agregar_tareas()
-        elif opcion == 2:
-            quitar_tareas()
-        elif opcion == 3:
-            marcar_completada()
-        elif opcion == 4:
-            listar_tareas()
-        elif opcion == 5:
-            print("Saliendo del programa...")
-            break
-        else:
-            print("Opción no válida. Intente de nuevo.")
+    if len(sys.argv) < 3:
+        print("Uso: python cli.py <comando> <accion> [parametros...]")
+        return
+
+    comando = sys.argv[1]
+    accion = sys.argv[2]
+    parametros = sys.argv[3:]
+
+    # Verificar si el comando es correcto
+    if comando != "todo":
+        print(
+            f"Error: Comando '{comando}' no reconocido. Usa 'todo' para empezar.")
+        return
+
+    if accion == "add":
+        agregar_tareas(parametros)
+    elif accion == "remove":
+        quitar_tareas()
+    elif accion == "complete":
+        marcar_completada()
+    elif accion == "list":
+        listar_tareas()
+    else:
+        print("Opción no válida. Intente de nuevo.")
 
 
 if __name__ == '__main__':
