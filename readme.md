@@ -1,5 +1,7 @@
 # Task Manager en Python
 
+proyecto basado en [roadmap backend](https://roadmap.sh/projects/task-tracker)
+
 ![Python](https://img.shields.io/badge/Python-3.x-blue.svg)
 
 ## Descripción
